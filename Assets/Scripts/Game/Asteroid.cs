@@ -14,11 +14,11 @@ namespace Assets.Scripts.Game
         [Header("爆炸音频")]
         public AudioClip explodeClip;
 
-        private Rigidbody rb;
+        private Rigidbody rb; // 刚体组件
 
         private GameObject explodeVfxPrefab; // 爆炸特效预制体
 
-        private AudioSource audioSource;
+        private AudioSource audioSource; // 播放组件
 
 
         // Start is called before the first frame update

@@ -4,12 +4,14 @@ namespace Assets.Scripts.Game
 {
     public class SpawnAsteroid : MonoBehaviour
     {
-        [Header("生成速度")]
+        [Header("生成陨石的速度")]
         public float spawnSpeed;
 
-        private GameObject[] asteroids;
+        private GameObject[] asteroids; // 陨石预制体
 
-        private float timer;
+        private float timer; // 计时器，用于控制陨石的生成速度
+
+
         // Start is called before the first frame update
         void Start()
         {
