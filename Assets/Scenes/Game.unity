@@ -328,7 +328,6 @@ GameObject:
   - component: {fileID: 414210499}
   - component: {fileID: 414210498}
   - component: {fileID: 414210497}
-  - component: {fileID: 414210500}
   m_Layer: 0
   m_Name: Forward
   m_TagString: Wall
@@ -422,18 +421,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 414210495}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &414210500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 414210495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d39155a478c042a4bb661550b8ac104a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &434189434
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +433,6 @@ GameObject:
   - component: {fileID: 434189438}
   - component: {fileID: 434189437}
   - component: {fileID: 434189436}
-  - component: {fileID: 434189439}
   m_Layer: 0
   m_Name: back
   m_TagString: Wall
@@ -540,18 +526,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434189434}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &434189439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 434189434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d39155a478c042a4bb661550b8ac104a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,12 +892,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298165513}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f780398f1e0e0114b83b48f37225abb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnSpeed: 1
+  spawnSpeed: 0.5
 --- !u!114 &1298165516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,7 +905,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298165513}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bd580cad66824514984662237272a80a, type: 3}
   m_Name: 
@@ -944,7 +918,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1298165513}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d40889986d076fe41be48fdd98c1b7e4, type: 3}
   m_Name: 

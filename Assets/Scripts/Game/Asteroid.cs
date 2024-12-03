@@ -28,12 +28,6 @@ namespace Assets.Scripts.Game
             audioSource = GetComponent<AudioSource>();
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
-
         public void SetVelocity(Vector3 velocity)
         {
             if (rb is null)
@@ -44,14 +38,14 @@ namespace Assets.Scripts.Game
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Wall"))
+            if (other.CompareTag("Wall") || other.CompareTag("DaZhao"))
             {
                 ObjectPool.Instance.Put(Name, this.gameObject);
-            } else if (other.CompareTag("PlayerBullet") || other.CompareTag("Player"))
+            }
+            else if (other.CompareTag("PlayerBullet") || other.CompareTag("Player"))
             {
                 // 爆炸特效
-                ObjectPool.Instance.Get(AsteroidExplosion.Name, explodeVfxPrefab, transform.position,
-                    Quaternion.identity);
+                ObjectPool.Instance.Get(AsteroidExplosion.Name, explodeVfxPrefab, transform.position, Quaternion.identity);
 
                 // 播放音乐
                 PlayExplodeClip();
@@ -61,7 +55,7 @@ namespace Assets.Scripts.Game
             }
         }
 
-        
+
         void PlayExplodeClip()
         {
             audioSource.clip = explodeClip;

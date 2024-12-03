@@ -8,15 +8,15 @@ namespace Assets.Scripts.Game
 
         [Header("背景的移动速度")]
         public float moveSpeed;
-        
-        private Material material;
 
-        private AudioSource audioSource;
+        private Material material; // 背景图片的材质
+
+        private AudioSource audioSource; // 音频组件
 
         // Start is called before the first frame update
         void Start()
         {
-            material = GetComponentInChildren<MeshRenderer>().material;
+            material = GetComponent<MeshRenderer>().material;
             audioSource = GetComponent<AudioSource>();
             audioSource.volume = 0.5f; // 默认音量为一半
         }

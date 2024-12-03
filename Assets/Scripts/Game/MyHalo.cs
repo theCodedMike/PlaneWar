@@ -6,7 +6,7 @@ namespace Assets.Scripts.Game
     {
         private float lifeTime; // 存活时间
 
-        private bool isActive;
+        private bool isActive; // 是否还存在
 
 
         void OnEnable()

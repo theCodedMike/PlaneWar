@@ -28,6 +28,21 @@ namespace Assets.Scripts.Game
 
         private GameObject daZhaoPrefab; // 大招的预制体
 
+        private MyHalo halo; // 光环组件
+
+        private int daZhao; // 发大招的次数
+
+        private int life; // 生命，可以通过吃生命星星来增加
+
+        private int hp; // 血量
+
+
+        void OnEnable()
+        {
+            daZhao = 3;
+            life = 1;
+            hp = 0;
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -35,7 +50,7 @@ namespace Assets.Scripts.Game
             firePoint = transform.Find("FirePoint");
             rigbody = GetComponent<Rigidbody>();
             audioSource = GetComponent<AudioSource>();
-
+            halo = transform.Find("Halo").GetComponent<MyHalo>();
             bulletPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(PlayerBullet.UniqueName));
             explodeVfxPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(PlayerExplosion.UniqueName));
             daZhaoPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(DaZhao.UniqueName));
@@ -44,6 +59,11 @@ namespace Assets.Scripts.Game
         // Update is called once per frame
         void Update()
         {
+            if (IsDead())
+            {
+                //OnPlayerDead();
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
                 Fire();
@@ -55,12 +75,27 @@ namespace Assets.Scripts.Game
             }
         }
 
+        // 处理玩家死亡时的逻辑
+        void OnPlayerDead()
+        {
+            // 生成特效
+            ObjectPool.Instance.Get(PlayerExplosion.UniqueName, explodeVfxPrefab, transform.position, Quaternion.identity);
+
+            // 播放爆炸音频
+            PlayExplodeClip();
+
+            // 回收
+            ObjectPool.Instance.Put(UniqueName, gameObject);
+
+            // TODO: 回到主页面
+        }
+
         // 发射子弹
         void Fire()
         {
             GameObject bulletObj = ObjectPool.Instance.Get(PlayerBullet.UniqueName, bulletPrefab, firePoint.position, Quaternion.Euler(90, 0, 0));
             PlayerBullet bullet = bulletObj.GetComponent<PlayerBullet>();
-            bullet.SetVelocity(Vector3.forward);
+            bullet.SetVelocity(Vector3.forward, this);
 
             PlayFireClip();
         }
@@ -68,11 +103,22 @@ namespace Assets.Scripts.Game
         // 放大招
         void LaunchDaZhao()
         {
-            GameObject daZhaoObj = ObjectPool.Instance.Get(DaZhao.UniqueName, daZhaoPrefab, firePoint.position, Quaternion.identity);
+            if (this.daZhao <= 0)
+                return;
+
+            Vector3 position = firePoint.position;
+            position.x = 0;
+            GameObject daZhaoObj = ObjectPool.Instance.Get(DaZhao.UniqueName, daZhaoPrefab, position, Quaternion.identity);
             DaZhao daZhao = daZhaoObj.GetComponent<DaZhao>();
             daZhao.SetVelocity(Vector3.forward);
+            this.daZhao--;
         }
 
+        // 增加血量
+        public void AddHp(uint value)
+        {
+            this.hp += (int)value;
+        }
 
         // 播放发射子弹的音乐
         void PlayFireClip()
@@ -111,28 +157,40 @@ namespace Assets.Scripts.Game
             // 限制左右上下边界
             Vector3 currPosition = rigbody.position;
             rigbody.position = new Vector3(
-                Mathf.Clamp(currPosition.x, boundary.minX, boundary.maxX), 
+                Mathf.Clamp(currPosition.x, boundary.minX, boundary.maxX),
                 currPosition.y,
                 Mathf.Clamp(currPosition.z, boundary.minZ, boundary.maxZ)
                 );
-            
+
         }
+
+        // 玩家是否已死
+        public bool IsDead() => life <= 0;
 
         void OnTriggerEnter(Collider other)
         {
-            // TODO: 比较tag，完善游戏结束逻辑
-            /*if (other is null)
+            if (other.CompareTag("DaZhaoStar"))
             {
-                
-                // 生成特效
-                ObjectPool.Instance.Get(PlayerExplosion.UniqueName, explodeVfxPrefab, transform.position,
-                    Quaternion.identity);
-
-                // 播放爆炸音频
-                PlayExplodeClip();
-
-                // 游戏结束
-            }*/
+                daZhao++;
+            }
+            if (other.CompareTag("LifeStar"))
+            {
+                life++;
+            }
+            if (other.CompareTag("Enemy") || other.CompareTag("EnemyBullet") || other.CompareTag("Asteroid"))
+            {
+                if (!halo.IsHaloActive()) // 每次新开始游戏时，飞船有3秒的保护器
+                {
+                    if (hp > 0) // 如果有血量，血量减少
+                    {
+                        hp--;
+                    }
+                    else if (life > 0) // 如果还有生命，生命减少
+                    {
+                        life--;
+                    }
+                }
+            }
         }
     }
 

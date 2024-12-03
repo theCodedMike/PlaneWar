@@ -5,7 +5,7 @@ namespace Assets.Scripts.Game
     // 玩家撞到后可以增加使用大招的次数
     public class SpawnDaZhaoStar : MonoBehaviour
     {
-        [Header("生成大招Star速度")]
+        [Header("生成大招星星速度")]
         public float spawnSpeed;
 
         private GameObject daZhaoStarPrefab; // 陨石预制体

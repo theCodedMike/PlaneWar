@@ -4,7 +4,7 @@ namespace Assets.Scripts.Game
 {
     public class SpawnLifeStar : MonoBehaviour
     {
-        [Header("生成生命Star速度")]
+        [Header("生成生命星星速度")]
         public float spawnSpeed;
 
         private GameObject lifeStarPrefab; // 陨石预制体

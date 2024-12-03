@@ -30,10 +30,9 @@ namespace Assets.Scripts.Game
         {
             while (true)
             {
-                Vector3 currPosition = rb.position;
-
-                Start:
-                int num = Random.Range(0, 6);
+                int num = 0;
+            start:
+                num = Random.Range(0, 6);
                 Vector3 direction = num switch
                 {
                     0 => Vector3.zero, // 保持不动
@@ -45,7 +44,7 @@ namespace Assets.Scripts.Game
                 };
 
                 if (moveDirection == direction)
-                    goto Start;
+                    goto start;
 
                 moveDirection = direction;
                 SetVelocity(direction);
@@ -70,7 +69,7 @@ namespace Assets.Scripts.Game
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Wall") || other.CompareTag("Player"))
+            if (other.CompareTag("Wall") || other.CompareTag("Player") || other.CompareTag("DaZhao"))
             {
                 ObjectPool.Instance.Put(Name, this.gameObject);
             }

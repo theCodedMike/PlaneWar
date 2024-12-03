@@ -29,7 +29,7 @@ namespace Assets.Scripts.Game
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player") || other.CompareTag("Wall"))
+            if (other.CompareTag("Player") || other.CompareTag("Wall") || other.CompareTag("DaZhao"))
             {
                 ObjectPool.Instance.Put(UniqueName, this.gameObject);
             }

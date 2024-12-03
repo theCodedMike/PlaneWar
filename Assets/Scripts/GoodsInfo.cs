@@ -37,6 +37,4 @@ namespace Assets.Scripts
         Enemy,  // 由敌方使用
         All,    // 二者皆可
     }
-
-    // 
 }
