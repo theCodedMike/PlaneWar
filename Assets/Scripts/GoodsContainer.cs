@@ -7,7 +7,9 @@ namespace Assets.Scripts
     [CreateAssetMenu(fileName = "GoodsContainer.asset", menuName = "GoodsCreator")]
     public class GoodsContainer : ScriptableObject
     {
-        public List<GoodsInfo> goodsList;
+        public List<GoodsInfo> buildInBagList; // 背包内内置的物品，使用后不能删减，是为了方便用户切换会默认的物品
+
+        public List<GoodsInfo> mallList; // 商城内的物品
 
         private static GoodsContainer instance;
 
@@ -23,7 +25,7 @@ namespace Assets.Scripts
             }
         }
 
-        private GoodsContainer(){}
+        private GoodsContainer() { }
 
         public static void Init()
         {
@@ -36,7 +38,7 @@ namespace Assets.Scripts
         // 查找预制体的路径
         public string GetPrefabPath(string uniqueName)
         {
-            foreach (GoodsInfo info in goodsList)
+            foreach (GoodsInfo info in buildInBagList)
             {
                 if (info.uniqueName == uniqueName)
                 {
@@ -44,13 +46,13 @@ namespace Assets.Scripts
                 }
             }
 
-            throw new ArgumentException("物品的名字错误，无法找到其预制体的路径");
+            throw new ArgumentException($"物品的名字错误，无法找到其预制体的路径: {uniqueName}");
         }
 
         // 查找icon的路径
         public string GetIconPath(string uniqueName)
         {
-            foreach (GoodsInfo info in goodsList)
+            foreach (GoodsInfo info in buildInBagList)
             {
                 if (info.uniqueName == uniqueName)
                 {
@@ -58,9 +60,7 @@ namespace Assets.Scripts
                 }
             }
 
-            throw new ArgumentException("物品的名字错误，无法找到其精灵图的路径");
+            throw new ArgumentException($"物品的名字错误，无法找到其精灵图的路径: {uniqueName}");
         }
     }
-
-
 }

@@ -8,6 +8,11 @@ TagManager:
   - Enemy
   - Wall
   - EnemyBullet
+  - DaZhao
+  - Asteroid
+  - EnemyShip
+  - DaZhaoStar
+  - LifeStar
   layers:
   - Default
   - TransparentFX

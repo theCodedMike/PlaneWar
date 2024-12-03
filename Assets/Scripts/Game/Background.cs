@@ -4,17 +4,19 @@ namespace Assets.Scripts.Game
 {
     public class Background : MonoBehaviour
     {
+        private const string Property = "_MainTex";
+
         [Header("背景的移动速度")]
         public float moveSpeed;
         
-        private SpriteRenderer render;
+        private Material material;
 
         private AudioSource audioSource;
 
         // Start is called before the first frame update
         void Start()
         {
-            render = GetComponentInChildren<SpriteRenderer>();
+            material = GetComponentInChildren<MeshRenderer>().material;
             audioSource = GetComponent<AudioSource>();
             audioSource.volume = 0.5f; // 默认音量为一半
         }
@@ -23,15 +25,12 @@ namespace Assets.Scripts.Game
         void Update()
         {
             Move();
-            /*if (Input.GetKeyDown(KeyCode.Space))
+
+
+            /*
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                v += 0.1f;
-                ChangeBgMusicVolume(v);
-            }
-            else if (Input.GetKeyDown(KeyCode.KeypadEnter))
-            {
-                v -= 0.1f;
-                ChangeBgMusicVolume(v);
+                ChangeBgImage("Textures/bg_image_sky");
             }*/
 
         }
@@ -41,9 +40,9 @@ namespace Assets.Scripts.Game
         /// </summary>
         void Move()
         {
-            Vector2 size = render.size;
-            size.y += moveSpeed * Time.deltaTime;
-            render.size = size;
+            Vector2 currOffset = material.GetTextureOffset(Property);
+            currOffset.y -= Time.deltaTime * moveSpeed;
+            material.SetTextureOffset(Property, currOffset);
         }
 
 
@@ -62,14 +61,14 @@ namespace Assets.Scripts.Game
         /// <param name="path">新背景的路径</param>
         public void ChangeBgImage(string path)
         {
-            Sprite newSprite = Resources.Load<Sprite>(path);
-            if (newSprite is null)
+            Texture newTexture = Resources.Load<Texture>(path);
+            if (newTexture is null)
             {
                 Debug.LogError($"Cannot load {path}...");
                 return;
             }
 
-            this.render.sprite = newSprite;
+            material.SetTexture(Property, newTexture);
         }
 
         /// <summary>

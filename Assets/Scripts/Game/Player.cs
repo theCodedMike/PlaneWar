@@ -26,15 +26,19 @@ namespace Assets.Scripts.Game
 
         private GameObject explodeVfxPrefab; // 爆炸特效预制体
 
+        private GameObject daZhaoPrefab; // 大招的预制体
+
 
         // Start is called before the first frame update
         void Start()
         {
             firePoint = transform.Find("FirePoint");
             rigbody = GetComponent<Rigidbody>();
+            audioSource = GetComponent<AudioSource>();
+
             bulletPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(PlayerBullet.UniqueName));
             explodeVfxPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(PlayerExplosion.UniqueName));
-            audioSource = GetComponent<AudioSource>();
+            daZhaoPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(DaZhao.UniqueName));
         }
 
         // Update is called once per frame
@@ -44,8 +48,14 @@ namespace Assets.Scripts.Game
             {
                 Fire();
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                LaunchDaZhao();
+            }
         }
 
+        // 发射子弹
         void Fire()
         {
             GameObject bulletObj = ObjectPool.Instance.Get(PlayerBullet.UniqueName, bulletPrefab, firePoint.position, Quaternion.Euler(90, 0, 0));
@@ -53,6 +63,14 @@ namespace Assets.Scripts.Game
             bullet.SetVelocity(Vector3.forward);
 
             PlayFireClip();
+        }
+
+        // 放大招
+        void LaunchDaZhao()
+        {
+            GameObject daZhaoObj = ObjectPool.Instance.Get(DaZhao.UniqueName, daZhaoPrefab, firePoint.position, Quaternion.identity);
+            DaZhao daZhao = daZhaoObj.GetComponent<DaZhao>();
+            daZhao.SetVelocity(Vector3.forward);
         }
 
 
