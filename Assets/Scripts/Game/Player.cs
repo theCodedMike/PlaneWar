@@ -1,3 +1,4 @@
+using Assets.Scripts.UI;
 using UnityEngine;
 
 namespace Assets.Scripts.Game
@@ -36,6 +37,8 @@ namespace Assets.Scripts.Game
 
         private int hp; // 血量
 
+        private TopBar topBar; // 顶部信息栏
+
 
         void OnEnable()
         {
@@ -51,9 +54,17 @@ namespace Assets.Scripts.Game
             rigbody = GetComponent<Rigidbody>();
             audioSource = GetComponent<AudioSource>();
             halo = transform.Find("Halo").GetComponent<MyHalo>();
-            bulletPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(PlayerBullet.UniqueName));
-            explodeVfxPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(PlayerExplosion.UniqueName));
-            daZhaoPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(DaZhao.UniqueName));
+            bulletPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetBuildInPrefabPath(PlayerBullet.UniqueName));
+            explodeVfxPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetBuildInPrefabPath(PlayerExplosion.UniqueName));
+            daZhaoPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetBuildInPrefabPath(DaZhao.UniqueName));
+
+            Transform canvas = GameObject.Find("Canvas").transform;
+            if (canvas == null)
+            {
+                Debug.LogError("Canvas is null!!!");
+                return;
+            }
+            topBar = canvas.Find("TopBar").GetComponent<TopBar>();
         }
 
         // Update is called once per frame
@@ -73,6 +84,16 @@ namespace Assets.Scripts.Game
             {
                 LaunchDaZhao();
             }
+
+            UpdateTopBar();
+        }
+
+        // 更新顶部信息栏
+        void UpdateTopBar()
+        {
+            topBar.UpdateHp(this.hp);
+            topBar.UpdateLife(this.life);
+            topBar.UpdateDaZhao(this.daZhao);
         }
 
         // 处理玩家死亡时的逻辑

@@ -15,7 +15,7 @@ namespace Assets.Scripts.Game
         // Start is called before the first frame update
         void Start()
         {
-            enemyPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(Enemy.UniqueName));
+            enemyPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetBuildInPrefabPath(Enemy.UniqueName));
         }
 
         // Update is called once per frame

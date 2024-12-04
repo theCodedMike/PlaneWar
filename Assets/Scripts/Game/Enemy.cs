@@ -34,8 +34,8 @@ namespace Assets.Scripts.Game
         void Awake()
         {
             rb = GetComponent<Rigidbody>();
-            explodeVfxPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(EnemyExplosion.UniqueName));
-            bulletPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetPrefabPath(EnemyBullet.UniqueName));
+            explodeVfxPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetBuildInPrefabPath(EnemyExplosion.UniqueName));
+            bulletPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetBuildInPrefabPath(EnemyBullet.UniqueName));
             audioSource = GetComponent<AudioSource>();
             firePosition = transform.Find("FirePoint");
         }

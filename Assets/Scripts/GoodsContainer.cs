@@ -35,8 +35,8 @@ namespace Assets.Scripts
             }
         }
 
-        // 查找预制体的路径
-        public string GetPrefabPath(string uniqueName)
+        // 查找背包内内置预制体的路径
+        public string GetBuildInPrefabPath(string uniqueName)
         {
             foreach (GoodsInfo info in buildInBagList)
             {
@@ -49,10 +49,38 @@ namespace Assets.Scripts
             throw new ArgumentException($"物品的名字错误，无法找到其预制体的路径: {uniqueName}");
         }
 
-        // 查找icon的路径
-        public string GetIconPath(string uniqueName)
+        // 查找背包内内置icon的路径
+        public string GetBuildInIconPath(string uniqueName)
         {
             foreach (GoodsInfo info in buildInBagList)
+            {
+                if (info.uniqueName == uniqueName)
+                {
+                    return info.iconPath;
+                }
+            }
+
+            throw new ArgumentException($"物品的名字错误，无法找到其精灵图的路径: {uniqueName}");
+        }
+
+        // 查找商城内预制体的路径
+        public string GetMallPrefabPath(string uniqueName)
+        {
+            foreach (GoodsInfo info in mallList)
+            {
+                if (info.uniqueName == uniqueName)
+                {
+                    return info.prefabPath;
+                }
+            }
+
+            throw new ArgumentException($"物品的名字错误，无法找到其预制体的路径: {uniqueName}");
+        }
+
+        // 查找商城内icon的路径
+        public string GetMallIconPath(string uniqueName)
+        {
+            foreach (GoodsInfo info in mallList)
             {
                 if (info.uniqueName == uniqueName)
                 {
