@@ -12,23 +12,6 @@ namespace Assets.Scripts.UI
         public TMP_Text life;
         [Header("大招")]
         public TMP_Text daZhao;
-        [Header("暂停按钮")]
-        public Button pauseBtn;
-
-
-        void OnEnable()
-        {
-            pauseBtn.onClick.AddListener(OnPauseButtonClick);
-        }
-        void OnDisable()
-        {
-            pauseBtn.onClick.RemoveListener(OnPauseButtonClick);
-        }
-        // 处理暂停按钮点击事件
-        void OnPauseButtonClick()
-        {
-            //TODO
-        }
 
         // 更新战斗值
         public void UpdateHp(int value)
