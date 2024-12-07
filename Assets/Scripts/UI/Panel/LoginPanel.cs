@@ -1,9 +1,9 @@
+using Assets.Scripts.UI;
 using TMPro;
-using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.Panel
+namespace UI.Panel
 {
     public class LoginPanel : BasePanel
     {
@@ -18,6 +18,14 @@ namespace Assets.Scripts.UI.Panel
 
         private const string DefaultUsername = "123";
         private const string DefaultPassword = "123";
+
+        public static LoginPanel Instance { get; private set; }
+        public bool isLogin; // 是否已登录
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -42,11 +50,11 @@ namespace Assets.Scripts.UI.Panel
 
         // 处理username输入
         private void OnPasswordValueChanged(string value) => HandleInputEvent();
-        
-        
+
+
         // 处理password输入
         private void OnUsernameValueChanged(string value) => HandleInputEvent();
-        
+
 
         private void HandleInputEvent()
         {
@@ -62,16 +70,20 @@ namespace Assets.Scripts.UI.Panel
         // 处理登录按钮点击事件
         private void OnLoginButtonClick()
         {
-            if (username.text != DefaultUsername || password.text != DefaultPassword)
+            // ReSharper disable once ComplexConditionExpression
+            if (username.text == DefaultUsername && password.text == DefaultPassword)
+            {
+                tip.text = "登录成功";
+                isLogin = true;
+                //UIManager.Instance.Pop();
+                //UIManager.Instance.Push(PanelType.Main);
+            }
+            else
             {
                 tip.text = "登录失败（用户名和密码都是123）";
-                Invoke("Clear", 2);
-                return;
+                isLogin = false;
+                Invoke(nameof(Clear), 2);
             }
-
-            tip.text = "登录成功";
-            //UIManager.Instance.Pop();
-            //UIManager.Instance.Push(PanelType.Main);
         }
 
         // 清空

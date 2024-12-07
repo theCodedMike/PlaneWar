@@ -1,25 +1,22 @@
-using System;
+using Assets.Scripts;
 using UnityEngine;
 
-namespace Assets.Scripts
+public class Main : MonoBehaviour
 {
-    public class Main : MonoBehaviour
+    // Start is called before the first frame update
+    void Awake()
     {
-        // Start is called before the first frame update
-        void Awake()
-        {
-            GoodsContainer.Init();
-        }
+        GoodsContainer.Init();
+    }
 
-        void Start()
-        {
-            // UIManager 的入口
-        }
+    void Start()
+    {
+        // UIManager 的入口
+    }
 
-        // Update is called once per fram
-        void Update()
-        {
-        
-        }
+    // Update is called once per fram
+    void Update()
+    {
+
     }
 }
