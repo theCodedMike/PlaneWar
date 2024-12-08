@@ -1,7 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Utils;
 
-namespace Assets.Scripts.Game
+namespace Game
 {
     public class LifeStar : MonoBehaviour
     {

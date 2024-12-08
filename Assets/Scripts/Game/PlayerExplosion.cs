@@ -1,6 +1,7 @@
 using UnityEngine;
+using Utils;
 
-namespace Assets.Scripts.Game
+namespace Game
 {
     public class PlayerExplosion : MonoBehaviour
     {

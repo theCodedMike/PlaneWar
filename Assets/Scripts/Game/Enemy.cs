@@ -1,9 +1,10 @@
-
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Utils;
+using UI;
 
-namespace Assets.Scripts.Game
+namespace Game
 {
     public class Enemy : MonoBehaviour
     {

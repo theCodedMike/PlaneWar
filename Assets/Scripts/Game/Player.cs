@@ -1,7 +1,8 @@
-using Assets.Scripts.UI;
 using UnityEngine;
+using Utils;
+using UI;
 
-namespace Assets.Scripts.Game
+namespace Game
 {
     public class Player : MonoBehaviour
     {

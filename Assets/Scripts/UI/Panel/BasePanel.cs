@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace UI.Panel
 {
     public class BasePanel : MonoBehaviour
     {
@@ -16,34 +16,34 @@ namespace Assets.Scripts.UI
         // 进入Panel
         public virtual void OnEnter()
         {
-            canvasGroup.alpha = 1;
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
+            CanvasGroup.alpha = 1;
+            CanvasGroup.interactable = true;
+            CanvasGroup.blocksRaycasts = true;
         }
 
 
         // 暂停Panel
         public virtual void OnPause()
         {
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
+            CanvasGroup.interactable = false;
+            CanvasGroup.blocksRaycasts = false;
         }
 
 
         // 恢复Panel
         public virtual void OnResume()
         {
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
+            CanvasGroup.interactable = true;
+            CanvasGroup.blocksRaycasts = true;
         }
 
 
         // 退出Panel
         public virtual void OnExit()
         {
-            canvasGroup.alpha = 0;
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
+            CanvasGroup.alpha = 0;
+            CanvasGroup.interactable = false;
+            CanvasGroup.blocksRaycasts = false;
         }
     }
 }

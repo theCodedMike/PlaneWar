@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace Assets.Scripts
+namespace UI
 {
     [System.Serializable]
     public class GoodsInfo

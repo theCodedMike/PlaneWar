@@ -1,6 +1,7 @@
 using UnityEngine;
+using Utils;
 
-namespace Assets.Scripts.Game
+namespace Game
 {
     // 玩家撞到后可以增加使用大招的次数
     public class SpawnDaZhaoStar : MonoBehaviour

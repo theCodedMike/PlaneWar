@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace UI
 {
     [CreateAssetMenu(fileName = "GoodsContainer.asset", menuName = "GoodsCreator")]
     public class GoodsContainer : ScriptableObject
@@ -27,13 +27,6 @@ namespace Assets.Scripts
 
         private GoodsContainer() { }
 
-        public static void Init()
-        {
-            if (instance == null)
-            {
-                instance = Resources.Load<GoodsContainer>("GoodsContainer");
-            }
-        }
 
         // 查找背包内内置预制体的路径
         public string GetBuildInPrefabPath(string uniqueName)

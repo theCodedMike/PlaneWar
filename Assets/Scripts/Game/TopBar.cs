@@ -1,8 +1,7 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Assets.Scripts.UI
+namespace Game
 {
     public class TopBar : MonoBehaviour
     {

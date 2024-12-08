@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Utils
 {
     public class ObjectPool
     {
@@ -62,7 +62,7 @@ namespace Assets.Scripts
             {
                 objMap.Add(key, new Queue<GameObject>(10));
             }
-            
+
             obj.SetActive(false);
             objMap[key].Enqueue(obj);
         }

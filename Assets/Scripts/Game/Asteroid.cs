@@ -1,7 +1,7 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using Utils;
 
-namespace Assets.Scripts.Game
+namespace Game
 {
     public class Asteroid : MonoBehaviour
     {
