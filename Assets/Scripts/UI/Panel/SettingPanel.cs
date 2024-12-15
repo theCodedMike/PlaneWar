@@ -11,22 +11,18 @@ namespace UI.Panel
     {
         [Header("右上角的头像")]
         public Image bigAvatar;
-
         [Header("关闭按钮")]
         public Button closeBtn;
-
         [Header("头像文字后面的头像")]
         public Image smallAvatar;
         [Header("用户名")]
         public TMP_Text username;
         [Header("密码")]
         public TMP_Text password;
-
         [Header("背景音乐音量")]
         public Slider bgmVolume;
         [Header("背景音乐音量值")]
         public TMP_Text bgmVolumeValue;
-
         [Header("金币")]
         public TMP_Text gold;
         [Header("钻石")]
@@ -80,7 +76,6 @@ namespace UI.Panel
         {
             PlayBtnPressSound();
 
-            UIManager.Instance.Pop();
             UIManager.Instance.Push(PanelType.Recharge);
         }
 

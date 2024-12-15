@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,6 +26,14 @@ namespace UI.Panel
         private RectTransform startRT;
         private AudioSource audioSource;
 
+        public static MainPanel Instance;
+        public Dictionary<string, int> buyItems;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
         private void OnEnable()
         {
             startBtn.onClick.AddListener(OnStartBtnClick);
@@ -37,6 +46,7 @@ namespace UI.Panel
         // Start is called before the first frame update
         void Start()
         {
+            buyItems = new(16);
             startRT = startBtn.GetComponent<RectTransform>();
             audioSource = GetComponent<AudioSource>();
         }
@@ -57,6 +67,9 @@ namespace UI.Panel
         private void OnBagBtnClick()
         {
             PlayBtnPressSound();
+
+            UIManager.Instance.Pop();
+            UIManager.Instance.Push(PanelType.Bag);
         }
 
         // "商城"按钮被按下
@@ -113,6 +126,11 @@ namespace UI.Panel
             }
         }
 
+        // 购买的商品存在这里
+        public void BuyGoods(string id, int count)
+        {
+            buyItems.Add(id, buyItems.GetValueOrDefault(id, 0) + count);
+        }
 
         private void OnDisable()
         {

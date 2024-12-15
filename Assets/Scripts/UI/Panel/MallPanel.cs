@@ -44,6 +44,8 @@ namespace UI.Panel
         private List<Item> mallItemList;
         private List<MallItemView> mallItemViewList; // 用于销毁item实例
 
+        private AudioSource audioSource;
+
         private void OnEnable()
         {
             returnBtn.onClick.AddListener(OnReturnBtnClick);
@@ -51,6 +53,8 @@ namespace UI.Panel
 
         private void OnReturnBtnClick()
         {
+            PlayPressSound();
+
             UIManager.Instance.Pop();
             UIManager.Instance.Push(PanelType.Main);
         }
@@ -59,6 +63,7 @@ namespace UI.Panel
         private void Start()
         {
             mallItemPrefab = Resources.Load<GameObject>("Prefabs/MallItem");
+            audioSource = GetComponent<AudioSource>();
 
             GetMoneyInfo();
 
@@ -93,6 +98,8 @@ namespace UI.Panel
         // 使用类型选中
         private void OnUseTypeSelected(MallUseTypeView useTypeView)
         {
+            PlayPressSound();
+
             if (HandleUseTypeBg(useTypeView))
             {
                 currUseType = currUseTypeView.GetUseType();
@@ -119,6 +126,8 @@ namespace UI.Panel
         // 分类选中
         private void OnCategorySelected(MallCategoryView categoryView)
         {
+            PlayPressSound();
+
             if (HandleCategoryBg(categoryView))
             {
                 currCategory = categoryView.GetCategory();
@@ -142,8 +151,11 @@ namespace UI.Panel
             return true;
         }
 
-        private void OnMallItemSelected(MallItemView itemView)
+        private void OnMallItemSelected(MallItemView itemView, bool isSpawn)
         {
+            if (!isSpawn)
+                PlayPressSound();
+
             if (itemView == currItemView)
                 return;
 
@@ -172,7 +184,7 @@ namespace UI.Panel
                 mallItemViewList.Add(itemView);
 
                 if (i == 0)
-                    OnMallItemSelected(itemView);
+                    OnMallItemSelected(itemView, true);
             }
         }
 
@@ -183,6 +195,11 @@ namespace UI.Panel
                 Destroy(itemView.gameObject);
             }
             mallItemViewList.Clear();
+        }
+
+        private void PlayPressSound()
+        {
+            audioSource.Play();
         }
 
         private void OnDisable()

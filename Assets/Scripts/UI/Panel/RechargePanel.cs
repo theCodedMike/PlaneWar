@@ -34,45 +34,57 @@ namespace UI.Panel
         {
             PlayBtnPressSound();
 
-            if (gold > 10000 || diamond > 10000)
-            {
-                tipText.text = "您充值过多";
-                Invoke(nameof(Clear), 2f);
-                return;
-            }
-
             SharedFieldUtils.SetGold(SharedFieldUtils.GetGold() + gold);
             SharedFieldUtils.SetDiamond(SharedFieldUtils.GetDiamond() + diamond);
             tipText.text = "充值成功";
 
             Clear();
             UIManager.Instance.Pop(); // 跳转到设置页面
-            UIManager.Instance.Push(PanelType.Setting);
         }
 
 
 
-        private void OnDiamondValueChanged(string value)
+        private void OnDiamondValueChanged(string value) => HandleInputEvent(value, false);
+
+
+
+        private void OnGoldInputValueChanged(string value) => HandleInputEvent(value, true);
+
+
+        // ReSharper disable once MethodTooLong
+        private void HandleInputEvent(string value, bool isGold)
         {
-            diamond = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            if (value.StartsWith('-'))
+            {
+                tipText.text = "充值不能小于0";
+                Invoke(nameof(Clear), 1f);
+                return;
+            }
 
-            HandleInputEvent();
-        }
-
-        private void OnGoldInputValueChanged(string value)
-        {
-            gold = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
-
-            HandleInputEvent();
-        }
-
-        void HandleInputEvent()
-        {
-            if (gold == 0 && diamond == 0)
-                SetRechargeBtnUnavailable();
+            int val = string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
+            if (isGold)
+                gold = val;
             else
-                SetRechargeBtnAvailable();
+                diamond = val;
+
+            if (gold == 0 && diamond == 0)
+            {
+                tipText.text = "充值金额必须大于0";
+                Invoke(nameof(Clear), 1f);
+                return;
+            }
+
+            if (gold > 1000 || diamond > 1000)
+            {
+                tipText.text = "充值金额过大(不超过1000)";
+                Invoke(nameof(Clear), 1f);
+                return;
+            }
+
+            SetRechargeBtnAvailable();
         }
+
+        // 关闭panel
         private void OnCloseBtnClick()
         {
             PlayBtnPressSound();
@@ -80,7 +92,6 @@ namespace UI.Panel
             Clear();
 
             UIManager.Instance.Pop();
-            UIManager.Instance.Push(PanelType.Setting);
         }
 
         // Start is called before the first frame update

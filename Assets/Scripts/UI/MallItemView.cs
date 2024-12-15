@@ -1,5 +1,6 @@
 using System;
 using TMPro;
+using UI.Panel;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,7 +22,7 @@ namespace UI
         [Header("购买按钮")]
         public Button buy;
 
-        public Action<MallItemView> OnMallItemSelected;
+        public Action<MallItemView, bool> OnMallItemSelected;
 
         private Item item;
 
@@ -47,13 +48,16 @@ namespace UI
         // 购买按钮被点击后
         private void OnBuyButtonClick()
         {
-            UIManager.Instance.Push(PanelType.Buy);
+            OnMallItemSelected(this, false);
+
+            BuyPanel buyPanel = UIManager.Instance.Push(PanelType.Buy) as BuyPanel;
+            buyPanel.SetItem(item);
         }
 
         // Item被点击后
         public void OnPointerClick(PointerEventData eventData)
         {
-            OnMallItemSelected(this);
+            OnMallItemSelected(this, false);
         }
 
         // Item被点击后，改变背景图片的颜色

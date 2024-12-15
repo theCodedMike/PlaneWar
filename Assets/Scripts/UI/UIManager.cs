@@ -57,6 +57,7 @@ namespace UI
             BasePanel currPanel = GetPanel(type);
             currPanel.OnEnter();
             panelStack.Push(currPanel);
+            currPanel.transform.SetAsLastSibling();
 
             return currPanel;
         }

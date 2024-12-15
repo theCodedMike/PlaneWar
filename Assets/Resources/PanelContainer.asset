@@ -25,3 +25,5 @@ MonoBehaviour:
     path: Prefabs/Panels/BagPanel
   - type: 5
     path: Prefabs/Panels/MallPanel
+  - type: 6
+    path: Prefabs/Panels/BuyPanel
