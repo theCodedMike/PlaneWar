@@ -63,6 +63,9 @@ namespace UI.Panel
         private void OnMallBtnClick()
         {
             PlayBtnPressSound();
+
+            UIManager.Instance.Pop();
+            UIManager.Instance.Push(PanelType.Mall);
         }
 
         // "设置"按钮被按下

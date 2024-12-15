@@ -23,3 +23,5 @@ MonoBehaviour:
     path: Prefabs/Panels/RechargePanel
   - type: 4
     path: Prefabs/Panels/BagPanel
+  - type: 5
+    path: Prefabs/Panels/MallPanel

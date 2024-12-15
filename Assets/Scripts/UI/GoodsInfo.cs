@@ -14,6 +14,26 @@ namespace UI
         public string desc; // 描述
         public uint spendGold; // 需花费的金币
         public uint spendDiamond; // 需花费的钻石
+
+        public Item ToItem(uint count = uint.MaxValue)
+        {
+            Item item = new()
+            {
+                id = uniqueName,
+                name = shortName,
+                category = type,
+                series = series,
+                useType = useType,
+                isBuildIn = isBuildIn,
+                iconPath = iconPath,
+                prefabPath = prefabPath,
+                desc = desc,
+                gold = spendGold,
+                diamond = spendDiamond,
+                count = count
+            };
+            return item;
+        }
     }
 
     [System.Serializable]

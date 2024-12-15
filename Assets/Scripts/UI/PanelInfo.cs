@@ -16,5 +16,6 @@ namespace UI
         Recharge, // 充值页面
         Bag,      // 背包页面
         Mall,     // 商城页面
+        Buy,      // 购买页面
     }
 }
