@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -22,12 +23,14 @@ namespace UI.Panel
         public TMP_Text gold;
         [Header("钻石")]
         public TMP_Text diamond;
+        [Header("返回按钮")]
+        public Button returnBtn;
 
         private RectTransform startRT;
         private AudioSource audioSource;
 
         public static MainPanel Instance;
-        public Dictionary<string, int> buyItems;
+        private Dictionary<string, int> buyItemMap;
 
         private void Awake()
         {
@@ -41,15 +44,31 @@ namespace UI.Panel
             bagBtn.onClick.AddListener(OnBagBtnClick);
             mallBtn.onClick.AddListener(OnMallBtnClick);
             settingBtn.onClick.AddListener(OnSettingBtnClick);
+            returnBtn.onClick.AddListener(OnReturnBtnClick);
+
+            RechargePanel.rechargeEvent += GetMoneyInfo;
+            BuyPanel.buyEvent += GetMoneyInfo;
         }
 
         // Start is called before the first frame update
         void Start()
         {
-            buyItems = new(16);
+            buyItemMap = new(16);
             startRT = startBtn.GetComponent<RectTransform>();
             audioSource = GetComponent<AudioSource>();
+
+            GetMoneyInfo();
         }
+
+        // 返回到登录页面
+        private void OnReturnBtnClick()
+        {
+            PlayBtnPressSound();
+
+            UIManager.Instance.Pop();
+            UIManager.Instance.Push(PanelType.Login);
+        }
+
 
         // "开始游戏"按钮被按下
         private void OnStartBtnClick()
@@ -69,7 +88,8 @@ namespace UI.Panel
             PlayBtnPressSound();
 
             UIManager.Instance.Pop();
-            UIManager.Instance.Push(PanelType.Bag);
+            BagPanel bagPanel = UIManager.Instance.Push(PanelType.Bag) as BagPanel;
+            bagPanel!.AddBuyItems(GetBuyItems());
         }
 
         // "商城"按钮被按下
@@ -99,11 +119,10 @@ namespace UI.Panel
         void Update()
         {
             AdjustStartAndContinueBtn();
-            UpdateGoldAndDiamond();
         }
 
         // 更新用户的金币信息
-        void UpdateGoldAndDiamond()
+        void GetMoneyInfo()
         {
             gold.text = $"{SharedFieldUtils.GetGold()}";
             diamond.text = $"{SharedFieldUtils.GetDiamond()}";
@@ -129,7 +148,29 @@ namespace UI.Panel
         // 购买的商品存在这里
         public void BuyGoods(string id, int count)
         {
-            buyItems.Add(id, buyItems.GetValueOrDefault(id, 0) + count);
+            string key = new string(id);
+            buyItemMap.Add(key, buyItemMap.GetValueOrDefault(key, 0) + count);
+        }
+
+        // 获取购买的商品
+        List<Item> GetBuyItems()
+        {
+            if (buyItemMap.Count == 0)
+                return null;
+
+            List<Item> items = new List<Item>(16);
+            foreach (var pair in buyItemMap)
+            {
+                GoodsInfo goods = GoodsContainer.Instance.mallList.Find(info => info.uniqueName == pair.Key);
+                if (goods is null)
+                    throw new ArgumentException($"Cannot find this goods: {pair.Key}");
+
+                Item item = goods.ToItem((uint)pair.Value);
+                items.Add(item);
+            }
+
+            buyItemMap.Clear();
+            return items;
         }
 
         private void OnDisable()
@@ -139,6 +180,10 @@ namespace UI.Panel
             bagBtn.onClick.RemoveAllListeners();
             mallBtn.onClick.RemoveAllListeners();
             settingBtn.onClick.RemoveAllListeners();
+            returnBtn.onClick.RemoveAllListeners();
+
+            RechargePanel.rechargeEvent -= GetMoneyInfo;
+            BuyPanel.buyEvent -= GetMoneyInfo;
         }
     }
 }

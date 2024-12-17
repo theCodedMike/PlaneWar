@@ -1,4 +1,7 @@
+using System;
+using UI.Panel;
 using UnityEngine;
+using Utils;
 
 namespace Game
 {
@@ -13,12 +16,18 @@ namespace Game
 
         private AudioSource audioSource; // 音频组件
 
+
+        private void OnEnable()
+        {
+            SettingPanel.bgmVolumeChangeEvent += GetBgMusicVolume;
+        }
+
         // Start is called before the first frame update
         void Start()
         {
             material = GetComponent<MeshRenderer>().material;
             audioSource = GetComponent<AudioSource>();
-            audioSource.volume = 0.5f; // 默认音量为一半
+            GetBgMusicVolume();
         }
 
         // Update is called once per frame
@@ -89,19 +98,17 @@ namespace Game
         }
 
         /// <summary>
-        /// 改变背景音乐的音量
-        /// </summary>
-        /// <param name="volume">音量，在[0, 1]之间</param>
-        public void ChangeBgMusicVolume(float volume)
-        {
-            volume = Mathf.Clamp(volume, 0, 1);
-            this.audioSource.volume = volume;
-        }
-
-        /// <summary>
         /// 获取背景音乐的音量
         /// </summary>
-        /// <returns></returns>
-        public float GetBgMusicVolume() => this.audioSource.volume;
+        public void GetBgMusicVolume()
+        {
+            float bgmVolume = SharedFieldUtils.GetBgmVolume() / 100f;
+            this.audioSource.volume = bgmVolume;
+        }
+
+        private void OnDisable()
+        {
+            SettingPanel.bgmVolumeChangeEvent -= GetBgMusicVolume;
+        }
     }
 }

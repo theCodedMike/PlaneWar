@@ -18,8 +18,11 @@ namespace Game
         // Update is called once per frame
         void Update()
         {
+            if (!isActive)
+                return;
+
             lifeTime -= Time.deltaTime;
-            if (isActive && lifeTime <= 0)
+            if (lifeTime <= 0)
             {
                 isActive = false;
                 transform.gameObject.SetActive(false);

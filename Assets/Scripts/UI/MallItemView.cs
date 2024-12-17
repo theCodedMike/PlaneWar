@@ -21,34 +21,58 @@ namespace UI
         public TMP_Text diamond;
         [Header("购买按钮")]
         public Button buy;
+        [Header("播放按钮")]
+        public Button play;
+
 
         public Action<MallItemView, bool> OnMallItemSelected;
 
         private Item item;
 
+        private AudioSource audioSource;
+
         private void OnEnable()
         {
             buy.onClick.AddListener(OnBuyButtonClick);
+            play.onClick.AddListener(OnPlayBtnClick);
+
+            audioSource = GetComponent<AudioSource>();
+        }
+
+        private void OnPlayBtnClick()
+        {
+            if (audioSource.isPlaying)
+                audioSource.Stop();
+            else
+            {
+                AudioClip clip = Resources.Load<AudioClip>(item.prefabPath);
+                audioSource.PlayOneShot(clip);
+            }
         }
 
         public void SetItem(Item item)
         {
-            this.item = item;
+            this.item = item ?? throw new NullReferenceException("item is null");
+
             Refresh();
         }
 
         private void Refresh()
         {
-            this.itemIcon.sprite = Resources.Load<Sprite>(this.item.iconPath);
-            this.itemName.text = this.item.id;
-            this.gold.text = $"{this.item.gold}";
-            this.diamond.text = $"{this.item.diamond}";
+            itemIcon.sprite = Resources.Load<Sprite>(this.item.iconPath);
+            itemName.text = item.name;
+            gold.text = $"{item.gold}";
+            diamond.text = $"{item.diamond}";
+            play.gameObject.SetActive(item.category == GoodsType.BgMusic);
         }
 
         // 购买按钮被点击后
         private void OnBuyButtonClick()
         {
-            OnMallItemSelected(this, false);
+            OnMallItemSelected(this, true);
+
+            if (audioSource.isPlaying)
+                audioSource.Stop();
 
             BuyPanel buyPanel = UIManager.Instance.Push(PanelType.Buy) as BuyPanel;
             buyPanel.SetItem(item);
@@ -57,7 +81,7 @@ namespace UI
         // Item被点击后
         public void OnPointerClick(PointerEventData eventData)
         {
-            OnMallItemSelected(this, false);
+            OnMallItemSelected(this, true);
         }
 
         // Item被点击后，改变背景图片的颜色
@@ -75,6 +99,7 @@ namespace UI
         private void OnDisable()
         {
             buy.onClick.RemoveAllListeners();
+            play.onClick.RemoveAllListeners();
         }
     }
 }

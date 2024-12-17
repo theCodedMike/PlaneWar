@@ -24,6 +24,8 @@ namespace UI.Panel
         public Button buy;
 
 
+        public static event Action buyEvent; // 购买事件，需要花费金币和钻石
+
         private int goldFromMall; // 选中商品所需的金币/个
         private int diamondFromMall; // 选中商品所需的钻石/个
         private string itemId; // 商品ID
@@ -49,7 +51,7 @@ namespace UI.Panel
 
         public void SetItem(Item item)
         {
-            itemId = item.id;
+            itemId = new string(item.id);
             goldFromMall = (int)item.gold;
             diamondFromMall = (int)item.diamond;
             icon.sprite = Resources.Load<Sprite>(item.iconPath);
@@ -84,7 +86,7 @@ namespace UI.Panel
             }
             if (val > 100)
             {
-                tip.text = "购买数量过多，请量力而行";
+                tip.text = "购买数量过多(应小于100)";
                 Invoke(nameof(Clear), 1);
                 return;
             }
@@ -119,8 +121,10 @@ namespace UI.Panel
 
             SharedFieldUtils.SetGold(surplusGold - spendGold);
             SharedFieldUtils.SetDiamond(surplusDiamond - spendDiamond);
+            buyEvent?.Invoke();
 
             // 将购买的商品放在MainPanel那里，这样进入BagPanel时可以把购买的商品带进去
+            print($"BuyPanel: here ... ItemId = {itemId}, count = {intCount}");
             MainPanel.Instance.BuyGoods(itemId, intCount);
 
             Clear();
@@ -149,7 +153,6 @@ namespace UI.Panel
             count.text = "";
             SetBuyBtnUnavailable();
             intCount = 0;
-            itemId = "";
         }
 
         private void SetBuyBtnUnavailable()

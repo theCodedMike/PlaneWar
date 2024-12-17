@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,6 +6,7 @@ using Utils;
 
 namespace UI.Panel
 {
+    // 充值页面
     public class RechargePanel : BasePanel
     {
         [Header("关闭按钮")]
@@ -18,6 +20,8 @@ namespace UI.Panel
         [Header("充值按钮")]
         public Button rechargeBtn;
 
+        public static event Action rechargeEvent;
+
         private AudioSource audioSource;
         private int gold;
         private int diamond;
@@ -30,13 +34,14 @@ namespace UI.Panel
             rechargeBtn.onClick.AddListener(OnRechargeBtnClick);
         }
 
+        // 点击"充值"按钮
         private void OnRechargeBtnClick()
         {
             PlayBtnPressSound();
 
             SharedFieldUtils.SetGold(SharedFieldUtils.GetGold() + gold);
             SharedFieldUtils.SetDiamond(SharedFieldUtils.GetDiamond() + diamond);
-            tipText.text = "充值成功";
+            rechargeEvent?.Invoke();
 
             Clear();
             UIManager.Instance.Pop(); // 跳转到设置页面

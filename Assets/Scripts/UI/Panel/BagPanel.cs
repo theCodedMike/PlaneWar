@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using Utils;
-using Random = UnityEngine.Random;
+using Button = UnityEngine.UI.Button;
 
 namespace UI.Panel
 {
@@ -54,17 +53,18 @@ namespace UI.Panel
         private void OnEnable()
         {
             returnBtn.onClick.AddListener(OnReturnBtnClick);
+            RechargePanel.rechargeEvent += GetMoneyInfo;
+            BuyPanel.buyEvent += GetMoneyInfo;
+
+            Init();
         }
 
-        // Start is called before the first frame update
-        void Start()
+        private void Init()
         {
             bagItemPrefab = Resources.Load<GameObject>("Prefabs/BagItem");
             audioSource = GetComponent<AudioSource>();
             infoView = GetComponentInChildren<BagItemInfoView>();
             infoView.ClickUseBtnEvent = UseBagItem;
-
-            GetMoneyInfo();
 
             // 选择不同的商品类型
             BagCategoryView[] categoryViews = categoryContent.GetComponentsInChildren<BagCategoryView>();
@@ -79,13 +79,49 @@ namespace UI.Panel
             HandleUseTypeBg(useTypeViews[0]);
 
             // 从数据库中读取数据
-            bagItemList = GoodsContainer.Instance.buildInBagList.Select(info => info.ToItem((uint)Random.Range(4, 10))).ToList();
+            bagItemList = GoodsContainer.Instance.buildInBagList.Select(info => info.ToItem()).ToList();
             bagItemViewList = new(16);
             print("bag count: " + bagItemList.Count);
+        }
 
-            // 生成
+        // Start is called before the first frame update
+        private void Start()
+        {
+            GetMoneyInfo();
+        }
+
+        // 添加从商城页面购买的物品
+        // 这个函数在Start函数之前执行
+        public void AddBuyItems(List<Item> buyItems)
+        {
+            print("bag panel addBuyItems...");
+
+            /*if (buyItems is null || buyItems.Count == 0)
+                return;*/
+            if (buyItems is { Count: > 0 })
+            {
+                foreach (Item buyItem in buyItems)
+                {
+                    bool find = false;
+
+                    foreach (Item bagItem in bagItemList)
+                    {
+                        if (buyItem.id == bagItem.id)
+                        {
+                            bagItem.count += buyItem.count;
+                            find = true;
+                            break;
+                        }
+                    }
+
+                    if (!find)
+                        bagItemList.Add(buyItem);
+                }
+            }
+
             Spawn();
         }
+
 
         // 返回到MainPanel页面
         private void OnReturnBtnClick()
@@ -181,7 +217,7 @@ namespace UI.Panel
                     bagItemViewList.Add(itemView);
 
                     if (i == 0)
-                        OnBagItemSelected(itemView, true);
+                        OnBagItemSelected(itemView, false);
                 }
             }
             else
@@ -190,9 +226,14 @@ namespace UI.Panel
             }
         }
 
-        private void OnBagItemSelected(BagItemView itemView, bool isSpawn)
+        /// <summary>
+        /// 选中某个背包Item，处理其背景色
+        /// </summary>
+        /// <param name="itemView">选中的Item</param>
+        /// <param name="isClick">用来控制是否发出按键声音，只有是用户点击某个Item时才发出按键声音</param>
+        private void OnBagItemSelected(BagItemView itemView, bool isClick)
         {
-            if (!isSpawn)
+            if (isClick)
                 PlayPressSound();
 
             if (itemView == currItemView)
@@ -205,32 +246,46 @@ namespace UI.Panel
             lastItemView = currItemView;
 
             // 初始化最下面的展示信息
-            infoView.SetItemInfo(itemView.GetItem());
+            infoView.SetItemInfo(itemView);
         }
 
-        // 点击"使用"按钮后，物品数量减1
-        private void UseBagItem(Item item)
+        /// <summary>
+        /// 点击"使用"按钮后，物品数量减1，如果数量变0，则删除
+        /// </summary>
+        /// <param name="item"></param>
+        private void UseBagItem(BagItemView itemView, BagItemInfoView infoView)
         {
+            if (itemView is null)
+                throw new NullReferenceException("itemView is null");
+            if (infoView is null)
+                throw new NullReferenceException("infoView is null");
+
             PlayPressSound();
 
-            foreach (var bagItem in bagItemList)
+            // 处理视图
+            Item item = itemView.GetItem();
+            if (!item.isBuildIn) // 如果是内置的商品，不需要扣减数量
             {
-                if (bagItem == item)
+                item.count--;
+                if (item.count == 0)
                 {
-                    bagItem.count--;
-                    if (bagItem.count == 0)
-                    {
-                        bagItemList.Remove(item);
-                    }
+                    bagItemList.Remove(item);
+                    infoView.SetItemInfo(null);
 
-                    break;
+                    bagItemViewList.Remove(itemView);
+                    Destroy(itemView.gameObject);
+                    if (bagItemViewList.Count > 0)
+                        OnBagItemSelected(bagItemViewList[0], false);
+                }
+                else
+                {
+                    itemView.UpdateCount();
                 }
             }
 
-            // TODO: 完善实际的逻辑
-
-            Spawn();
+            // TODO: 执行真正的逻辑
         }
+
 
         // 销毁已生成的GameObject
         private void Clear()
@@ -250,6 +305,8 @@ namespace UI.Panel
         private void OnDisable()
         {
             returnBtn.onClick.RemoveAllListeners();
+            RechargePanel.rechargeEvent -= GetMoneyInfo;
+            BuyPanel.buyEvent -= GetMoneyInfo;
         }
     }
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildInBagList:
   - uniqueName: PlayerDefault
-    shortName: "\u9ED8\u8BA4\u98DE\u8239"
+    shortName: "\u73A9\u5BB6\u9ED8\u8BA4\u4F7F\u7528\u7684\u98DE\u8239"
     type: 2
     series: 0
     useType: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
     spendGold: 0
     spendDiamond: 0
   - uniqueName: PlayerBulletDefault
-    shortName: "\u5B50\u5F39"
+    shortName: "\u73A9\u5BB6\u98DE\u8239\u9ED8\u8BA4\u5C04\u51FA\u7684\u5B50\u5F39"
     type: 3
     series: 1
     useType: 0
@@ -36,7 +36,7 @@ MonoBehaviour:
     spendGold: 0
     spendDiamond: 0
   - uniqueName: PlayerExplosionDefault
-    shortName: "\u7206\u70B8\u7279\u6548"
+    shortName: "\u73A9\u5BB6\u98DE\u8239\u7206\u70B8\u7279\u6548"
     type: 5
     series: 0
     useType: 0
@@ -47,18 +47,18 @@ MonoBehaviour:
     spendGold: 0
     spendDiamond: 0
   - uniqueName: EnemyDefault
-    shortName: "\u654C\u673A"
+    shortName: "\u9ED8\u8BA4\u7684\u654C\u673A"
     type: 2
     series: 0
     useType: 1
     isBuildIn: 1
     iconPath: Icons/Bag/EnemyDefault
     prefabPath: Prefabs/Bag/Enemy
-    desc: "\u9ED8\u8BA4\u7684\u654C\u673A"
+    desc: "\u9ED8\u8BA4\u7684\u654C\u673A\u3002"
     spendGold: 0
     spendDiamond: 0
   - uniqueName: EnemyBulletDefault
-    shortName: "\u5B50\u5F39"
+    shortName: "\u654C\u673A\u9ED8\u8BA4\u5C04\u51FA\u7684\u5B50\u5F39"
     type: 3
     series: 1
     useType: 1
@@ -69,7 +69,7 @@ MonoBehaviour:
     spendGold: 0
     spendDiamond: 0
   - uniqueName: EnemyExplosionDefault
-    shortName: "\u7206\u70B8\u7279\u6548"
+    shortName: "\u654C\u673A\u7206\u70B8\u7279\u6548"
     type: 5
     series: 0
     useType: 1
@@ -80,7 +80,7 @@ MonoBehaviour:
     spendGold: 0
     spendDiamond: 0
   - uniqueName: DaZhaoDefault
-    shortName: "\u5927\u62DB"
+    shortName: "\u9ED8\u8BA4\u5927\u62DB"
     type: 4
     series: 0
     useType: 0
@@ -123,4 +123,158 @@ MonoBehaviour:
     desc: "\u9ED8\u8BA4\u80CC\u666F\u97F3\u4E50\u3002"
     spendGold: 0
     spendDiamond: 0
-  mallList: []
+  mallList:
+  - uniqueName: BgImageDark
+    shortName: "\u6697\u9ED1\u80CC\u666F\u56FE\u7247"
+    type: 0
+    series: 0
+    useType: 2
+    isBuildIn: 0
+    iconPath: Icons/Mall/bg_image_dark
+    prefabPath: Textures/bg_image_dark
+    desc: "\u6697\u9ED1\u7CFB\u7684\u80CC\u666F\u56FE\u7247\uFF0C\u770B\u8D77\u6765\u975E\u5E38\u6F02\u4EAE\uFF01"
+    spendGold: 0
+    spendDiamond: 0
+  - uniqueName: BgImageHelloKitty
+    shortName: "\u7C89\u8272\u7CFBHello Kitty\u56FE\u7247"
+    type: 0
+    series: 0
+    useType: 2
+    isBuildIn: 0
+    iconPath: Icons/Mall/bg_image_hello_kitty
+    prefabPath: Textures/bg_image_hello_kitty
+    desc: "Hello Kitty\u4E3B\u9898\u7684\u56FE\u7247\uFF0C\u975E\u5E38\u53EF\u7231\uFF01"
+    spendGold: 0
+    spendDiamond: 0
+  - uniqueName: BgImageHelloKitty2
+    shortName: "\u6DE1\u9EC4\u7CFBHello Kitty\u56FE\u7247"
+    type: 0
+    series: 0
+    useType: 2
+    isBuildIn: 0
+    iconPath: Icons/Mall/bg_image_hello_kitty2
+    prefabPath: Textures/bg_image_hello_kitty2
+    desc: "Hello Kitty\u4E3B\u9898\u7684\u56FE\u7247\uFF0C\u975E\u5E38\u53EF\u7231\uFF01"
+    spendGold: 0
+    spendDiamond: 0
+  - uniqueName: BgImageSky
+    shortName: "\u5B87\u5B99\u6DF1\u7A7A\u56FE\u7247"
+    type: 0
+    series: 0
+    useType: 2
+    isBuildIn: 0
+    iconPath: Icons/Mall/bg_image_sky
+    prefabPath: Textures/bg_image_sky
+    desc: "\u6DE1\u7D2B\u7EA2\u8272\u7684\u5B87\u5B99\u6DF1\u7A7A\uFF0C\u770B\u8D77\u6765\u975E\u5E38\u8FF7\u4EBA\uFF01"
+    spendGold: 0
+    spendDiamond: 0
+  - uniqueName: BgImageSnow
+    shortName: "\u4E0B\u96EA\u56FE\u7247"
+    type: 0
+    series: 0
+    useType: 2
+    isBuildIn: 0
+    iconPath: Icons/Mall/bg_image_snow
+    prefabPath: Textures/bg_image_snow
+    desc: "\u4E0B\u96EA\u5929\u7684\u56FE\u7247\uFF0C\u770B\u8D77\u6765\u975E\u5E38\u9759\uFF01"
+    spendGold: 0
+    spendDiamond: 0
+  - uniqueName: "Bgm_\u4E00\u8DEF\u5411\u5317"
+    shortName: "\u4E00\u8DEF\u5411\u5317"
+    type: 1
+    series: 0
+    useType: 2
+    isBuildIn: 0
+    iconPath: "Icons/Mall/bgm_\u4E00\u8DEF\u5411\u5317"
+    prefabPath: "Audios/bg_music_\u4E00\u8DEF\u5411\u5317"
+    desc: "\u5468\u6770\u4F26\u7684\u4E00\u8DEF\u5411\u5317\uFF0C\u5E0C\u671B\u4F60\u559C\u6B22\u3002"
+    spendGold: 0
+    spendDiamond: 0
+  - uniqueName: "Bgm_\u53CC\u622A\u68CD"
+    shortName: "\u53CC\u622A\u68CD"
+    type: 1
+    series: 0
+    useType: 2
+    isBuildIn: 0
+    iconPath: "Icons/Mall/bgm_\u53CC\u622A\u68CD"
+    prefabPath: "Audios/bg_music_\u53CC\u622A\u68CD"
+    desc: "\u5468\u6770\u4F26\u7684\u53CC\u622A\u68CD\uFF0C\u5E0C\u671B\u4F60\u559C\u6B22\u3002"
+    spendGold: 0
+    spendDiamond: 0
+  - uniqueName: "Bgm_\u8D85\u7EA7\u9A6C\u91CC\u5965"
+    shortName: "\u8D85\u7EA7\u9A6C\u91CC\u5965\u4E3B\u9898\u66F2"
+    type: 1
+    series: 0
+    useType: 2
+    isBuildIn: 0
+    iconPath: "Icons/Mall/bgm_\u8D85\u7EA7\u9A6C\u91CC\u5965"
+    prefabPath: "Audios/bg_music_\u8D85\u7EA7\u9A6C\u91CC\u5965"
+    desc: "\u8FD9\u4E2A\u66F2\u5B50\u5927\u5BB6\u90FD\u8033\u719F\u80FD\u8BE6\uFF0C\u975E\u5E38\u7684\u7ECF\u5178\uFF01"
+    spendGold: 0
+    spendDiamond: 0
+  - uniqueName: SightBlue
+    shortName: "\u84DD\u8272\u6B7C20"
+    type: 2
+    series: 0
+    useType: 0
+    isBuildIn: 0
+    iconPath: Icons/Mall/Sight_Blue
+    prefabPath: Prefabs/Mall/SightBlue
+    desc: "\u84DD\u8272\u7684\u6B7C20\uFF0C\u975E\u5E38\u597D\u770B\uFF01"
+    spendGold: 50
+    spendDiamond: 50
+  - uniqueName: SightBrown
+    shortName: "\u68D5\u8272\u6B7C20"
+    type: 2
+    series: 0
+    useType: 0
+    isBuildIn: 0
+    iconPath: Icons/Mall/Sight_Brown
+    prefabPath: Prefabs/Mall/SightBrown
+    desc: "\u68D5\u8272\u7684\u6B7C20\uFF0C\u975E\u5E38\u597D\u770B\uFF01"
+    spendGold: 45
+    spendDiamond: 45
+  - uniqueName: SightGreen
+    shortName: "\u7EFF\u8272\u6B7C20"
+    type: 2
+    series: 0
+    useType: 0
+    isBuildIn: 0
+    iconPath: Icons/Mall/Sight_Green
+    prefabPath: Prefabs/Mall/SightGreen
+    desc: "\u7EFF\u8272\u7684\u6B7C20\uFF0C\u975E\u5E38\u597D\u770B\uFF01"
+    spendGold: 60
+    spendDiamond: 60
+  - uniqueName: EagleBlue
+    shortName: "\u84DD\u8272\u6218\u9E70F15"
+    type: 2
+    series: 0
+    useType: 1
+    isBuildIn: 0
+    iconPath: Icons/Mall/Eagle_Blue
+    prefabPath: Prefabs/Mall/EagleBlue
+    desc: "\u84DD\u8272\u7684\u6218\u9E70F15\uFF0C\u975E\u5E38\u7ECF\u5178\uFF01"
+    spendGold: 50
+    spendDiamond: 50
+  - uniqueName: EagleRed
+    shortName: "\u7EA2\u8272\u6218\u9E70F15"
+    type: 2
+    series: 0
+    useType: 1
+    isBuildIn: 0
+    iconPath: Icons/Mall/Eagle_Red
+    prefabPath: Prefabs/Mall/EagleRed
+    desc: "\u7EA2\u8272\u7684\u6218\u9E70F15\uFF0C\u975E\u5E38\u7ECF\u5178\uFF01"
+    spendGold: 45
+    spendDiamond: 65
+  - uniqueName: EagleYellow
+    shortName: "\u9EC4\u8272\u6218\u9E70F15"
+    type: 2
+    series: 0
+    useType: 1
+    isBuildIn: 0
+    iconPath: Icons/Mall/Eagle_Yellow
+    prefabPath: Prefabs/Mall/EagleYellow
+    desc: "\u9EC4\u8272\u7684\u6218\u9E70F15\uFF0C\u975E\u5E38\u7ECF\u5178\uFF01"
+    spendGold: 75
+    spendDiamond: 40

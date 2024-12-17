@@ -26,12 +26,16 @@ namespace UI
         // 改变背景
         public void ChangeBg()
         {
+            image ??= transform.GetComponentInChildren<Image>();
+
             image.color = new Color32(73, 60, 179, 255);
         }
 
         // 恢复背景
         public void RestoreBg()
         {
+            image ??= transform.GetComponentInChildren<Image>();
+
             image.color = new Color32(178, 117, 117, 255);
         }
 

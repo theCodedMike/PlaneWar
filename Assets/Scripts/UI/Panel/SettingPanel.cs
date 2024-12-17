@@ -30,6 +30,8 @@ namespace UI.Panel
         [Header("点击充值按钮")]
         public Button rechargeBtn;
 
+        public static event Action bgmVolumeChangeEvent; // 背景音乐音量改变
+
         private AudioSource audioSource;
         private bool isPwdCipher; // 密码以密文显示
 
@@ -38,7 +40,11 @@ namespace UI.Panel
             closeBtn.onClick.AddListener(OnCloseBtnClick);
             bgmVolume.onValueChanged.AddListener(OnBgmVolumeValueChanged);
             rechargeBtn.onClick.AddListener(OnRechargeBtnClick);
+
+            RechargePanel.rechargeEvent += GetMoneyInfo;
+            BuyPanel.buyEvent += GetMoneyInfo;
         }
+
 
         // Start is called before the first frame update
         void Start()
@@ -60,18 +66,19 @@ namespace UI.Panel
             bgmVolume.value = SharedFieldUtils.GetBgmVolume();
             bgmVolumeValue.text = $"{SharedFieldUtils.GetBgmVolume()}";
 
-            UpdateSharedValue();
+            GetMoneyInfo();
         }
 
         private void OnBgmVolumeValueChanged(float value)
         {
-            PlayBtnPressSound();
-
             int volume = (int)value;
             SharedFieldUtils.SetBgmVolume(volume);
             bgmVolumeValue.text = $"{volume}";
+
+            bgmVolumeChangeEvent?.Invoke();
         }
 
+        // 点击"点击充值"按钮
         private void OnRechargeBtnClick()
         {
             PlayBtnPressSound();
@@ -103,16 +110,12 @@ namespace UI.Panel
             else
             {
                 isPwdCipher = true;
-                password.text = new string('*', SharedFieldUtils.GetPassword().Length);
+                password.text = "********";
             }
         }
 
-        private void Update()
-        {
-            UpdateSharedValue();
-        }
 
-        void UpdateSharedValue()
+        void GetMoneyInfo()
         {
             gold.text = $"{SharedFieldUtils.GetGold()}";
             diamond.text = $"{SharedFieldUtils.GetDiamond()}";
@@ -129,6 +132,10 @@ namespace UI.Panel
             closeBtn.onClick.RemoveAllListeners();
             bgmVolume.onValueChanged.RemoveAllListeners();
             rechargeBtn.onClick.RemoveAllListeners();
+
+
+            RechargePanel.rechargeEvent -= GetMoneyInfo;
+            BuyPanel.buyEvent -= GetMoneyInfo;
         }
     }
 }

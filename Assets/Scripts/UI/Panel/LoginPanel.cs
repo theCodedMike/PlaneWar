@@ -23,8 +23,6 @@ namespace UI.Panel
 
         private AudioSource audioSource;
 
-        private const string DefaultUsername = "123";
-        private const string DefaultPassword = "123";
 
         public static LoginPanel Instance { get; private set; }
         public bool isLogin; // 是否已登录
@@ -71,13 +69,13 @@ namespace UI.Panel
         // 处理注册按钮点击事件
         private void OnSignUpBtnClick()
         {
-            audioSource.Play();
+            PlayPressSound();
 
             bool isSignUp = SharedFieldUtils.IsSignUp();
             if (isSignUp)
             {
                 tip.text = "您已注册，请点击登录按钮进行登录";
-                Invoke(nameof(ClearTip), 2);
+                Invoke(nameof(ClearTip), 1);
                 return;
             }
 
@@ -90,13 +88,13 @@ namespace UI.Panel
         // 处理登录按钮点击事件
         private void OnLoginButtonClick()
         {
-            audioSource.Play();
+            PlayPressSound();
 
             bool isSignUp = SharedFieldUtils.IsSignUp();
             if (!isSignUp) // 用户未注册，却点击了登录按钮
             {
                 tip.text = "您尚未注册，请点击注册按钮进行注册";
-                Invoke(nameof(ClearTip), 2f);
+                Invoke(nameof(ClearTip), 1f);
                 return;
             }
 
@@ -109,12 +107,13 @@ namespace UI.Panel
             else
             {
                 string tipMsg = "";
-                if (usernameFromInput != usernameFromDb)
-                    tipMsg = "用户名不正确";
-                else if (passwordFromInput != passwordFromDb)
-                    tipMsg = "密码不正确";
-                else
+                if (usernameFromInput != usernameFromDb && passwordFromInput != passwordFromDb)
                     tipMsg = "用户名和密码都不正确";
+                else if (usernameFromInput != usernameFromDb)
+                    tipMsg = "用户名不正确";
+                else
+                    tipMsg = "密码不正确";
+
 
                 RetryWhenFail(tipMsg);
             }
@@ -129,6 +128,8 @@ namespace UI.Panel
 
             UIManager.Instance.Pop();
             UIManager.Instance.Push(PanelType.Main);
+
+            Invoke(nameof(Clear), 1f);
         }
 
         // 登录失败，则重试
@@ -136,7 +137,7 @@ namespace UI.Panel
         {
             tip.text = tipMsg;
             SharedFieldUtils.SetIsLogin(false);
-            Invoke(nameof(Clear), 2f);
+            Invoke(nameof(Clear), 1f);
         }
 
         // 清空提示
@@ -181,7 +182,10 @@ namespace UI.Panel
             password.Select();
         }
 
-
+        private void PlayPressSound()
+        {
+            audioSource.Play();
+        }
         private void OnDisable()
         {
             loginBtn.onClick.RemoveAllListeners();

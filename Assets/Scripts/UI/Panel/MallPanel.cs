@@ -49,8 +49,11 @@ namespace UI.Panel
         private void OnEnable()
         {
             returnBtn.onClick.AddListener(OnReturnBtnClick);
+            RechargePanel.rechargeEvent += GetMoneyInfo;
+            BuyPanel.buyEvent += GetMoneyInfo;
         }
 
+        // 点击"返回"按钮，返回到Main页面
         private void OnReturnBtnClick()
         {
             PlayPressSound();
@@ -80,7 +83,7 @@ namespace UI.Panel
             HandleUseTypeBg(useTypeViews[0]);
 
             // 从数据库中读取数据
-            mallItemList = GoodsContainer.Instance.buildInBagList.Select(info => info.ToItem()).ToList();
+            mallItemList = GoodsContainer.Instance.mallList.Select(info => info.ToItem()).ToList();
             mallItemViewList = new(16);
             print("count: " + mallItemList.Count);
 
@@ -151,9 +154,9 @@ namespace UI.Panel
             return true;
         }
 
-        private void OnMallItemSelected(MallItemView itemView, bool isSpawn)
+        private void OnMallItemSelected(MallItemView itemView, bool isClick)
         {
-            if (!isSpawn)
+            if (isClick)
                 PlayPressSound();
 
             if (itemView == currItemView)
@@ -184,7 +187,7 @@ namespace UI.Panel
                 mallItemViewList.Add(itemView);
 
                 if (i == 0)
-                    OnMallItemSelected(itemView, true);
+                    OnMallItemSelected(itemView, false);
             }
         }
 
@@ -205,6 +208,9 @@ namespace UI.Panel
         private void OnDisable()
         {
             returnBtn.onClick.RemoveAllListeners();
+
+            RechargePanel.rechargeEvent -= GetMoneyInfo;
+            BuyPanel.buyEvent -= GetMoneyInfo;
         }
     }
 }

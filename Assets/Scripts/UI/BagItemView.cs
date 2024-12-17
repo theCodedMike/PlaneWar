@@ -24,9 +24,15 @@ namespace UI
         {
             this.item = item;
             itemIcon.sprite = Resources.Load<Sprite>(item.iconPath);
-            count.text = $"{item.count}";
 
-            //count.text = item.isBuildIn ? "" : $"{item.count}";
+            count.text = item.isBuildIn ? "" : $"{item.count}";
+        }
+
+        public void UpdateCount()
+        {
+            if (item is null || item.isBuildIn) return;
+
+            count.text = $"{item.count}";
         }
 
         public Item GetItem() => item;
@@ -47,7 +53,7 @@ namespace UI
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            OnBagItemSelected(this, false);
+            OnBagItemSelected(this, true);
         }
     }
 }

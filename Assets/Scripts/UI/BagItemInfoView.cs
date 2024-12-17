@@ -16,9 +16,9 @@ namespace UI
         [Header("使用按钮")]
         public Button useBtn;
 
-        public Action<Item> ClickUseBtnEvent;
+        public Action<BagItemView, BagItemInfoView> ClickUseBtnEvent;
 
-        private Item item;
+        private BagItemView itemView;
 
 
         private void OnEnable()
@@ -26,15 +26,16 @@ namespace UI
             useBtn.onClick.AddListener(OnUseBtnClick);
         }
 
-        public void SetItemInfo(Item item)
+        public void SetItemInfo(BagItemView itemView)
         {
-            if (item is null)
+            if (itemView is null)
             {
                 Clear();
                 return;
             }
 
-            this.item = item;
+            this.itemView = itemView;
+            Item item = itemView.GetItem();
             itemIcon.sprite = Resources.Load<Sprite>(item.iconPath);
             itemIcon.color = new Color32(255, 255, 255, 255);
             itemName.text = item.name;
@@ -44,7 +45,7 @@ namespace UI
 
         private void OnUseBtnClick()
         {
-            ClickUseBtnEvent(item);
+            ClickUseBtnEvent(itemView, this);
         }
 
         private void Clear()
