@@ -14,8 +14,8 @@ namespace UI
 
         private UIManager()
         {
-            panelPathDic = new(5);
-            panelObjDic = new(5);
+            panelPathDic = new(8);
+            panelObjDic = new(8);
             panelStack = new(2);
             Init();
         }
@@ -27,7 +27,7 @@ namespace UI
         // 存放panel
         private Stack<BasePanel> panelStack;
 
-        private GameObject canvas;
+        public GameObject canvas { get; private set; }
 
         void Init()
         {

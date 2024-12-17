@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Utils;
 
@@ -74,6 +76,23 @@ namespace UI.Panel
         private void OnStartBtnClick()
         {
             PlayBtnPressSound();
+
+            SharedFieldUtils.SetIsGamePause(false);
+            Camera.main.GetComponent<AudioListener>().enabled = false;
+
+            StartCoroutine(LoadGameSceneAsync());
+        }
+
+        IEnumerator LoadGameSceneAsync()
+        {
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
+            while (!asyncOperation.isDone)
+            {
+                yield return null;
+            }
+
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("Game"));
+            UIManager.Instance.canvas.SetActive(false);
         }
 
         // "继续游戏"按钮被按下

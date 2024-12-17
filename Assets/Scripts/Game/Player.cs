@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using Utils;
 using UI;
+using UnityEngine.SceneManagement;
 
 namespace Game
 {
@@ -41,6 +43,17 @@ namespace Game
         private TopBar topBar; // 顶部信息栏
 
 
+        private void Awake()
+        {
+            Transform canvas = GameObject.Find("Canvas").transform;
+            if (canvas == null)
+            {
+                Debug.LogError("Canvas is null!!!");
+                return;
+            }
+            topBar = canvas.Find("TopBar").GetComponent<TopBar>();
+        }
+
         void OnEnable()
         {
             daZhao = 3;
@@ -58,14 +71,6 @@ namespace Game
             bulletPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetBuildInPrefabPath(PlayerBullet.UniqueName));
             explodeVfxPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetBuildInPrefabPath(PlayerExplosion.UniqueName));
             daZhaoPrefab = Resources.Load<GameObject>(GoodsContainer.Instance.GetBuildInPrefabPath(DaZhao.UniqueName));
-
-            Transform canvas = GameObject.Find("Canvas").transform;
-            if (canvas == null)
-            {
-                Debug.LogError("Canvas is null!!!");
-                return;
-            }
-            topBar = canvas.Find("TopBar").GetComponent<TopBar>();
         }
 
         // Update is called once per frame
@@ -76,6 +81,7 @@ namespace Game
                 //OnPlayerDead();
             }
 
+            // 按下鼠标左键开火
             if (Input.GetMouseButtonDown(0))
             {
                 Fire();
@@ -201,7 +207,7 @@ namespace Game
             }
             if (other.CompareTag("Enemy") || other.CompareTag("EnemyBullet") || other.CompareTag("Asteroid"))
             {
-                if (!halo.IsHaloActive()) // 每次新开始游戏时，飞船有3秒的保护器
+                if (!halo.IsHaloActive()) // 每次新开始游戏时，飞船有3秒的保护期
                 {
                     if (hp > 0) // 如果有血量，血量减少
                     {
