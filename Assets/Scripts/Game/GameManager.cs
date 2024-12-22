@@ -9,15 +9,12 @@ namespace Game
     // ReSharper disable once HollowTypeName
     public class GameManager : MonoBehaviour
     {
-        [Header("玩家生成位置")]
-        public Transform playerGenPoint;
-
         // Start is called before the first frame update
         void Start()
         {
             string prefabPath = GoodsContainer.Instance.GetBuildInPrefabPath(Player.UniqueName);
             GameObject player = Resources.Load<GameObject>(prefabPath);
-            ObjectPool.Instance.Get(Player.UniqueName, player, playerGenPoint.position, Quaternion.identity);
+            ObjectPool.Instance.Get(Player.UniqueName, player, transform.position, Quaternion.identity);
         }
 
         // Update is called once per frame
@@ -41,8 +38,9 @@ namespace Game
                 yield return null;
             }
 
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName("UI"));
-            Camera.main.GetComponent<AudioListener>().enabled = false;
+            //SceneManager.SetActiveScene(SceneManager.GetSceneByName("UI"));
+            //Camera.main.GetComponent<AudioListener>().enabled = false;
+            //UIManager.Instance.Push(PanelType.Main);
         }
     }
 }

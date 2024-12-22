@@ -78,21 +78,22 @@ namespace UI.Panel
             PlayBtnPressSound();
 
             SharedFieldUtils.SetIsGamePause(false);
-            Camera.main.GetComponent<AudioListener>().enabled = false;
+            //Camera.main.GetComponent<AudioListener>().enabled = false;
+            UIManager.Instance.Pop();
 
             StartCoroutine(LoadGameSceneAsync());
         }
 
         IEnumerator LoadGameSceneAsync()
         {
-            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Game", LoadSceneMode.Additive);
+            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Game");
             while (!asyncOperation.isDone)
             {
                 yield return null;
             }
 
-            SceneManager.SetActiveScene(SceneManager.GetSceneByName("Game"));
-            UIManager.Instance.canvas.SetActive(false);
+            //SceneManager.SetActiveScene(SceneManager.GetSceneByName("Game"));
+            //UIManager.Instance.canvas.SetActive(false);
         }
 
         // "继续游戏"按钮被按下
